@@ -1,0 +1,25 @@
+---
+- name: To install docker and build docker image
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: git clone command
+      ansible.builtin.shell:
+        cmd: "git clone https://github.com/Hari0o/Bashscripts.git ."
+        chdir: gold/
+      ignore_errors: true
+
+    - name: modifying permissions
+      ansible.builtin.shell:
+        cmd: "sudo chmod 744 dockerinstall.sh"
+        chdir: gold/
+
+          #    - name: running docker
+          #ansible.builtin.shell:
+          #cmd: "./dockerinstall.sh"
+          #chdir: gold/  
+
+    - name: modifying permissions for gold docker file
+      ansible.builtin.shell:
+        cmd: "sudo chmod 744 golddocker.sh"
+        chdir: gold/
