@@ -1,0 +1,37 @@
+---
+- name: To install docker and build docker image
+  hosts: 172.31.37.50
+
+  tasks:
+    - name: Ensure the target directory exists
+      file:
+        path: gold/
+        state: directory
+
+    - name: Clone the Git repository
+      ansible.builtin.shell:
+        cmd: "git clone https://github.com/Hari0o/Bashscripts.git ."
+        chdir: gold/
+      args:
+        creates: gold/.git
+      ignore_errors: yes
+
+
+    - name: Update repository to ensure it matches the remote
+      ansible.builtin.shell:
+        cmd: |
+          git fetch --all
+          git reset --hard origin/main
+        chdir: gold/
+
+    - name: modifying permissions
+      ansible.builtin.shell:
+        cmd: "sudo chmod 744 golddocker.sh"
+        chdir: gold/
+
+    - name:  docker image build
+      ansible.builtin.shell:
+        cmd: "./golddocker.sh"
+        chdir: gold/  
+
+  
